@@ -96,6 +96,10 @@ export enum UserEventSource {
 	Drop = 'input.drop',
 }
 
+export interface UpdateBodyOptions {
+	noteId?: string;
+}
+
 export interface EditorControl {
 	supportsCommand(name: EditorCommandType|string): boolean|Promise<boolean>;
 	// eslint-disable-next-line @typescript-eslint/no-explicit-any -- Old code before rule was applied
@@ -110,7 +114,7 @@ export interface EditorControl {
 	setScrollPercent(fraction: number): void;
 
 	insertText(text: string, source?: UserEventSource): void;
-	updateBody(newBody: string): void;
+	updateBody(newBody: string, UpdateBodyOptions?: UpdateBodyOptions): void;
 
 	updateSettings(newSettings: EditorSettings): void;
 
@@ -165,7 +169,9 @@ export interface EditorSettings {
 	language: EditorLanguageType;
 
 	keymap: EditorKeymap;
+	tabMovesFocus: boolean;
 
+	markdownMarkEnabled: boolean;
 	katexEnabled: boolean;
 	spellcheckEnabled: boolean;
 	readOnly: boolean;
@@ -187,6 +193,7 @@ interface Localisations {
 export interface EditorProps {
 	settings: EditorSettings;
 	initialText: string;
+	initialNoteId: string;
 	// Used mostly for internal editor library strings
 	localisations?: Localisations;
 
